@@ -1,4 +1,4 @@
-package utils;
+package io.sabkar.lzcompression.utils.streams;
 
 import java.io.IOException;
 import java.io.OutputStream;
