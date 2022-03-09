@@ -1,4 +1,4 @@
-package utils;
+package io.sabkar.lzcompression.utils;
 
 public final class Constants {
 

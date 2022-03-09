@@ -1,11 +1,11 @@
-package lzss;
+package io.sabkar.lzcompression.algorithms.lzss;
 
-import utils.BitInputStream;
-import utils.BitOutputStream;
+import io.sabkar.lzcompression.utils.streams.BitInputStream;
+import io.sabkar.lzcompression.utils.streams.BitOutputStream;
 
 import java.io.*;
 
-import static utils.Constants.*;
+import static io.sabkar.lzcompression.utils.Constants.*;
 
 public class Lzss {
 
