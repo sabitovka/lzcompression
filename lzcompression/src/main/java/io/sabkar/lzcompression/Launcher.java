@@ -1,7 +1,7 @@
 package io.sabkar.lzcompression;
 
-import io.sabkar.lzcompression.algorithms.lz78.LZ78Compressor;
-import io.sabkar.lzcompression.algorithms.lz78.LZ78Decoder;
+import io.sabkar.lzcompression.algorithms.lzw.LZWCompressor;
+import io.sabkar.lzcompression.algorithms.lzw.LZWDecoder;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,9 +13,10 @@ class Launcher {
         FileInputStream fis = new FileInputStream("C:\\Users\\adm-sabitovka\\Desktop\\1.txt");
         FileOutputStream fos = new FileOutputStream("C:\\Users\\adm-sabitovka\\Desktop\\2.txt");
 
-        Compressor compressor = new LZ78Compressor();
+        Compressor compressor = new LZWCompressor();
 
         compressor.compress(fis, fos);
+        //Lzw.compress(fis, fos);
 
         fis.close();
         fos.close();
@@ -23,9 +24,10 @@ class Launcher {
         /*FileInputStream*/ fis = new FileInputStream("C:\\Users\\adm-sabitovka\\Desktop\\2.txt");
         /*FileOutputStream*/ fos = new FileOutputStream("C:\\Users\\adm-sabitovka\\Desktop\\3.txt");
 
-        Decoder decoder = new LZ78Decoder();
+        Decoder decoder = new LZWDecoder();
         decoder.decode(fis, fos);
 
+        //Lzw.decode(fis, fos);
         fis.close();
         fos.close();
     }

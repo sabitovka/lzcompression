@@ -1,8 +1,8 @@
-package lzw;
+package io.sabkar.lzcompression.algorithms.lzw;
 
-import utils.BitInputStream;
-import utils.BitOutputStream;
-import utils.CustomHashMap;
+import io.sabkar.lzcompression.utils.CustomHashMap;
+import io.sabkar.lzcompression.utils.streams.BitInputStream;
+import io.sabkar.lzcompression.utils.streams.BitOutputStream;
 
 import java.io.*;
 import java.util.HashMap;
