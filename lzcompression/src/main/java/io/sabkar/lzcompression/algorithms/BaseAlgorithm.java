@@ -13,8 +13,8 @@ public abstract class BaseAlgorithm {
     public BaseAlgorithm(int dictBitCount, int bufferBitCount) {
         this.dictBitCount = dictBitCount;
         this.bufferBitCount = bufferBitCount;
-        dictSize = 1 << dictBitCount - 1;
-        bufferSize = 1 << bufferBitCount - 1;
+        dictSize = (1 << dictBitCount) - 1;
+        bufferSize = (1 << bufferBitCount) - 1;
     }
 
     public BaseAlgorithm() {
