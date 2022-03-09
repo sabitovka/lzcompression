@@ -1,4 +1,4 @@
-package lz77;
+package io.sabkar.lzcompression.algorithms.lz77;
 
 import java.io.*;
 
