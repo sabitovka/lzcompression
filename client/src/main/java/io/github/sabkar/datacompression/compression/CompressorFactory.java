@@ -7,7 +7,7 @@ import io.github.sabkar.datacompression.compression.algorithms.lzw.LZWCompressor
 
 public class CompressorFactory {
 
-    Compressor getCompressor(String methodType) {
+    public static Compressor getCompressor(String methodType) {
         Compressor compressor;
         if (methodType.toLowerCase().equals("lz77")) {
             return new LZ77Compressor();

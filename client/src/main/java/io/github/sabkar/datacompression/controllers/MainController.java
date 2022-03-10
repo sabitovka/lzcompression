@@ -1,5 +1,9 @@
 package io.github.sabkar.datacompression.controllers;
 
+import io.github.sabkar.datacompression.compression.Compressor;
+import io.github.sabkar.datacompression.compression.CompressorFactory;
+import io.github.sabkar.datacompression.compression.Decoder;
+import io.github.sabkar.datacompression.compression.DecoderFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.io.*;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class MainController {
 
@@ -65,33 +69,40 @@ public class MainController {
     }
 
     @FXML
-    void compressButtonOnAction(ActionEvent event) {
-        compressionAction(ioStreamPair -> {
+    void compressButtonOnAction(ActionEvent event) throws IOException {
+        compressionAction("-" + methodChoiceBox.getValue().toLowerCase(), ioStreamPair -> {
             try {
-                while (ioStreamPair.getKey().available() > 0) {
-                    ioStreamPair.getValue().write(ioStreamPair.getKey().read());
-                }
-            } catch (IOException e) {
+                Compressor compressor = CompressorFactory.getCompressor(methodChoiceBox.getValue());
+                compressor.compress(ioStreamPair.getKey(), ioStreamPair.getValue());
+                return true;
+            } catch (Exception e) {
                 e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "");
+                alert.setHeaderText("Произошла ошибка при сжатии");
+                alert.showAndWait();
+                return false;
             }
         });
-
     }
 
     @FXML
-    void decodeButtonOnAction(ActionEvent event) {
-        compressionAction(ioStreamPair -> {
+    void decodeButtonOnAction(ActionEvent event) throws IOException {
+        compressionAction("", ioStreamPair -> {
             try {
-                while (ioStreamPair.getKey().available() > 0) {
-                    ioStreamPair.getValue().write(ioStreamPair.getKey().read());
-                }
-            } catch (IOException e) {
+                Decoder decoder = DecoderFactory.getDecoder(methodChoiceBox.getValue());
+                decoder.decode(ioStreamPair.getKey(), ioStreamPair.getValue());
+                return true;
+            } catch (Exception e) {
                 e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "");
+                alert.setHeaderText("Произошла ошибка при распаковке");
+                alert.showAndWait();
+                return false;
             }
         });
     }
 
-    private void compressionAction(Consumer<Pair<InputStream, OutputStream>> action) {
+    private void compressionAction(String filePostfix, Function<Pair<InputStream, OutputStream>, Boolean> action) throws IOException {
         if (file == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка");
@@ -100,26 +111,29 @@ public class MainController {
             return;
         }
 
+        String fileName = file.getName();
+        int dotIndex = fileName.lastIndexOf('.');
+        fileName = (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);
+
         fileChooser.setInitialDirectory(file.getParentFile());
-        fileChooser.setInitialFileName(file.getName() + "-" + methodChoiceBox.getValue().toLowerCase());
+        fileChooser.setInitialFileName(fileName + filePostfix);
         File fileToSave = fileChooser.showSaveDialog(this.stage);
         if (fileToSave != null) {
-            try (FileOutputStream fos = new FileOutputStream(fileToSave);
-                 FileInputStream fis = new FileInputStream(file)) {
+            FileOutputStream fos = new FileOutputStream(fileToSave);
+            FileInputStream fis = new FileInputStream(file);
 
-                action.accept(new Pair<>(fis, fos));
+            boolean success = action.apply(new Pair<>(fis, fos));
+            if (!success) {
+                return;
+            }
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
-                alert.setTitle("Открыть файл?");
-                alert.setHeaderText("Файл успешно создан. Открыть для чтения?");
-                alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+            alert.setTitle("Открыть файл?");
+            alert.setHeaderText("Файл успешно создан. Открыть для чтения?");
+            alert.showAndWait();
 
-                if (alert.getResult() == ButtonType.YES) {
-                    Runtime.getRuntime().exec("notepad " + fileToSave.getPath());
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (alert.getResult() == ButtonType.YES) {
+                Runtime.getRuntime().exec("notepad " + fileToSave.getPath());
             }
         }
     }

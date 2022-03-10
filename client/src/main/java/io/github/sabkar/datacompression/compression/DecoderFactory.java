@@ -7,7 +7,7 @@ import io.github.sabkar.datacompression.compression.algorithms.lzw.LZWDecoder;
 
 public class DecoderFactory {
 
-    Decoder getDecoder(String methodType) {
+    public static Decoder getDecoder(String methodType) {
         Compressor compressor;
         if (methodType.toLowerCase().equals("lz77")) {
             return new LZ77Decoder();
