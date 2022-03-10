@@ -5,15 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.*;
+import java.util.function.Consumer;
 
 public class MainController {
 
@@ -41,6 +40,10 @@ public class MainController {
     void initialize() {
         methodChoiceBox.getItems().addAll("LZ77", "LZSS", "LZ78", "LZW");
         methodChoiceBox.setValue("LZ77");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Текстовые", "*.txt"),
+                new FileChooser.ExtensionFilter("Все файлы", "*.*")
+        );
     }
 
     @FXML
@@ -63,27 +66,62 @@ public class MainController {
 
     @FXML
     void compressButtonOnAction(ActionEvent event) {
-        if (file == null) {
-            showNoFileAlertDialog();
-            return;
-        }
+        compressionAction(ioStreamPair -> {
+            try {
+                while (ioStreamPair.getKey().available() > 0) {
+                    ioStreamPair.getValue().write(ioStreamPair.getKey().read());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
     }
 
     @FXML
     void decodeButtonOnAction(ActionEvent event) {
+        compressionAction(ioStreamPair -> {
+            try {
+                while (ioStreamPair.getKey().available() > 0) {
+                    ioStreamPair.getValue().write(ioStreamPair.getKey().read());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void compressionAction(Consumer<Pair<InputStream, OutputStream>> action) {
         if (file == null) {
-            showNoFileAlertDialog();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка");
+            alert.setHeaderText("Файл не выбран");
+            alert.showAndWait();
             return;
         }
 
-    }
+        fileChooser.setInitialDirectory(file.getParentFile());
+        fileChooser.setInitialFileName(file.getName() + "-" + methodChoiceBox.getValue().toLowerCase());
+        File fileToSave = fileChooser.showSaveDialog(this.stage);
+        if (fileToSave != null) {
+            try (FileOutputStream fos = new FileOutputStream(fileToSave);
+                 FileInputStream fis = new FileInputStream(file)) {
 
-    private void showNoFileAlertDialog() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Ошибка");
-        alert.setHeaderText("Файл не выбран");
-        alert.showAndWait();
+                action.accept(new Pair<>(fis, fos));
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+                alert.setTitle("Открыть файл?");
+                alert.setHeaderText("Файл успешно создан. Открыть для чтения?");
+                alert.showAndWait();
+
+                if (alert.getResult() == ButtonType.YES) {
+                    Runtime.getRuntime().exec("notepad " + fileToSave.getPath());
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static Stage createView(Stage primaryStage) {
