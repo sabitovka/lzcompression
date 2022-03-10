@@ -1,45 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.*?>
-<AnchorPane cacheShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="466.0" prefWidth="710.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <Menu mnemonicParsing="false" text="Файл">
-            <MenuItem mnemonicParsing="false" onAction="#onOpenMenuItemSelected" text="Открыть">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
-            <MenuItem mnemonicParsing="false" text="Сохранить">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Закрыть" />
-        </Menu>
-        <Menu mnemonicParsing="false" text="Сжимать методом">
-            <RadioMenuItem mnemonicParsing="false" text="Не сжимать">
-                <toggleGroup>
-                    <ToggleGroup fx:id="CM" />
-                </toggleGroup>
-            </RadioMenuItem>
-            <RadioMenuItem mnemonicParsing="false" selected="true" text="LZW" toggleGroup="$CM" />
-            <RadioMenuItem mnemonicParsing="false" text="lz77.Lz77" toggleGroup="$CM" />
-            <RadioMenuItem mnemonicParsing="false" text="LZ78" toggleGroup="$CM" />
-        </Menu>
-        <Menu mnemonicParsing="false" text="Удаленный">
-            <MenuItem mnemonicParsing="false" text="Отправить" />
-        </Menu>
-        <Menu mnemonicParsing="false" text="Помощь">
-            <MenuItem mnemonicParsing="false" text="О программе" />
-        </Menu>
-    </MenuBar>
-   <SplitPane dividerPositions="0.5" layoutY="25.0" prefHeight="441.0" prefWidth="710.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-      <items>
-          <TextArea fx:id="sourceText" prefHeight="349.0" prefWidth="336.0" />
-          <TextArea prefHeight="349.0" prefWidth="336.0" />
-      </items>
-   </SplitPane>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <ToolBar prefHeight="6.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <items>
+          <Button mnemonicParsing="false" onAction="#openButtonOnAction" text="Открыть" />
+            <Button disable="true" mnemonicParsing="false" text="Сжать" />
+            <Button disable="true" mnemonicParsing="false" text="Разжать" />
+            <Button disable="true" mnemonicParsing="false" text="Настройки" wrapText="true" />
+        </items>
+      </ToolBar>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="643.0" style="-fx-background-color: #E9E9E9;" BorderPane.alignment="CENTER">
+         <children>
+            <ChoiceBox prefWidth="90.0" />
+         </children>
+         <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <center>
+      <TextArea fx:id="textArea" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

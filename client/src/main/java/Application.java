@@ -1,5 +1,5 @@
 import javafx.stage.Stage;
-import view.MainView;
+import view.MainController;
 
 public class Application extends javafx.application.Application {
 
@@ -9,7 +9,7 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        MainView.newInstance(stage).show();
+        MainController.createView(stage).show();
     }
 
 }

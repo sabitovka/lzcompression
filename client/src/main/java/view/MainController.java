@@ -11,21 +11,21 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
-public class MainView {
+public class MainController {
 
     @FXML
-    public TextArea sourceText;
+    public TextArea textArea;
 
     private Stage stage;
 
-    private MainView(Stage stage) {
+    private MainController(Stage stage) {
         this.stage = stage;
     }
 
     final FileChooser fileChooser = new FileChooser();
 
     @FXML
-    void onOpenMenuItemSelected(ActionEvent event) {
+    void openButtonOnAction(ActionEvent event) {
         File file = fileChooser.showOpenDialog(this.stage);
         if (file != null) {
             StringBuilder resultStringBuilder = new StringBuilder();
@@ -34,18 +34,18 @@ public class MainView {
                 while ((line = br.readLine()) != null) {
                     resultStringBuilder.append(line).append('\n');
                 }
-                sourceText.setText(resultStringBuilder.toString());
+                textArea.setText(resultStringBuilder.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public static Stage newInstance(Stage primaryStage) {
+    public static Stage createView(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainView.class.getResource("/view/fxml/main.fxml"));
+        loader.setLocation(MainController.class.getResource("/view/fxml/main.fxml"));
         try {
-            loader.setController(new MainView(primaryStage));
+            loader.setController(new MainController(primaryStage));
             Parent root = loader.load();
             primaryStage.setTitle("Курсовой проект по дисциплине МСКИТ");
             primaryStage.setScene(new Scene(root, 710, 450));
