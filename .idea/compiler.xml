@@ -6,16 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="lzcompressing-client" />
         <module name="client" />
-        <module name="datacompressing-client" />
-        <module name="datacompressing" />
         <module name="lzcompression" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="datacompressing" target="1.5" />
-      <module name="datacompressing-client" target="8" />
-      <module name="lzcompression" target="8" />
+      <module name="lzcompressing-client" target="8" />
+      <module name="lzcompression" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

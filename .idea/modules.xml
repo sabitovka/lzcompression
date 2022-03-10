@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/datacompressing.iml" filepath="$PROJECT_DIR$/datacompressing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/client/datacompressing-client.iml" filepath="$PROJECT_DIR$/client/datacompressing-client.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lzcompression/lzcompression.iml" filepath="$PROJECT_DIR$/lzcompression/lzcompression.iml" />
+      <module fileurl="file://$PROJECT_DIR$/client/lzcompressing-client.iml" filepath="$PROJECT_DIR$/client/lzcompressing-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lzcompression.iml" filepath="$PROJECT_DIR$/lzcompression.iml" />
     </modules>
   </component>
 </project>
