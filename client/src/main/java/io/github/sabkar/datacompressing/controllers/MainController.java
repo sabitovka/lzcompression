@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -93,6 +94,8 @@ public class MainController {
             Parent root = loader.load();
             primaryStage.setTitle("Курсовой проект по дисциплине МСКИТ");
             primaryStage.setScene(new Scene(root, 710, 450));
+            Image icon = new Image(MainController.class.getResourceAsStream("/img/compress.png"));
+            primaryStage.getIcons().add(icon);
             return primaryStage;
         } catch (IOException e) {
             e.printStackTrace();
