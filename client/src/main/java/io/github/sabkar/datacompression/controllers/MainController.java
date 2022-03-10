@@ -1,4 +1,4 @@
-package io.github.sabkar.datacompressing.controllers;
+package io.github.sabkar.datacompression.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

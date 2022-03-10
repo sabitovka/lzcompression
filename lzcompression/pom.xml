@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.sabkar</groupId>
-    <artifactId>lz-compression</artifactId>
+    <artifactId>lz-io.github.sabkar.datacompressing.compression</artifactId>
     <version>1.0</version>
 
     <build>

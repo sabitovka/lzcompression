@@ -1,6 +1,6 @@
-package io.github.sabkar.datacompressing;
+package io.github.sabkar.datacompression;
 
-import io.github.sabkar.datacompressing.controllers.MainController;
+import io.github.sabkar.datacompression.controllers.MainController;
 import javafx.stage.Stage;
 
 public class Application extends javafx.application.Application {
