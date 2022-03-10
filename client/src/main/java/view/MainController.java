@@ -5,6 +5,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -14,7 +17,13 @@ import java.io.*;
 public class MainController {
 
     @FXML
-    public TextArea textArea;
+    private TextArea textArea;
+
+    @FXML
+    private Label fileNameLabel;
+
+    @FXML
+    private ChoiceBox<String> methodChoiceBox;
 
     private Stage stage;
 
@@ -22,12 +31,22 @@ public class MainController {
         this.stage = stage;
     }
 
-    final FileChooser fileChooser = new FileChooser();
+    private final FileChooser fileChooser = new FileChooser();
+
+    private boolean isCanProcess = false;
+    private File file;
+
+    @FXML
+    void initialize() {
+        methodChoiceBox.getItems().addAll("LZ77", "LZSS", "LZ78", "LZW");
+        methodChoiceBox.setValue("LZ77");
+    }
 
     @FXML
     void openButtonOnAction(ActionEvent event) {
-        File file = fileChooser.showOpenDialog(this.stage);
+        file = fileChooser.showOpenDialog(this.stage);
         if (file != null) {
+            fileNameLabel.setText(file.getPath());
             StringBuilder resultStringBuilder = new StringBuilder();
             try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
                 String line;
@@ -39,6 +58,31 @@ public class MainController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    void compressButtonOnAction(ActionEvent event) {
+        if (file == null) {
+            showNoFileAlertDialog();
+            return;
+        }
+
+    }
+
+    @FXML
+    void decodeButtonOnAction(ActionEvent event) {
+        if (file == null) {
+            showNoFileAlertDialog();
+            return;
+        }
+
+    }
+
+    private void showNoFileAlertDialog() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ошибка");
+        alert.setHeaderText("Файл не выбран");
+        alert.showAndWait();
     }
 
     public static Stage createView(Stage primaryStage) {
